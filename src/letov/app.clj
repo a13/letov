@@ -3,17 +3,19 @@
    [clojure.string :as str])
   (:gen-class))
 
-(def files-contents
+(def files-content
   (map
    (comp
-    str/split-lines slurp
+    (partial remove str/blank?)
+    str/split-lines
+    slurp
     #(str "data/list_" % ".txt"))
    (range 1 5)))
 
 (defn verse
   []
   (cons '("О-о-о-о! Моя оборона!")
-        (repeatedly 4 #(map rand-nth files-contents))))
+        (repeatedly 4 #(map rand-nth files-content))))
 
 (defn -main [& args]
   (while true
