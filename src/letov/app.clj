@@ -10,18 +10,21 @@
     #(str "data/list_" % ".txt"))
    (range 1 5)))
 
-(def text
-  (repeatedly 4 #(map rand-nth files-contents)))
+(defn verse
+  []
+  (cons '("О-о-о-о! Моя оборона!")
+        (repeatedly 4 #(map rand-nth files-contents))))
 
 (defn -main [& args]
-  (print "О-о-о-о! Моя оборона!")
-  (doseq [line text]
-    (newline)
-    (doseq [word line]
-      (print word "")
-      (flush)
-      (Thread/sleep 400))
-    (Thread/sleep 500))
+  (while true
+    (doseq [line (verse)]
+      (doseq [char (str/join " " line)]
+        (print char)
+        (flush)
+        (Thread/sleep 40))
+      (Thread/sleep 200)
+      (newline))
+    (newline))
   (newline))
 
 
